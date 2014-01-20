@@ -153,8 +153,8 @@
 
 		// Cache several dimensions for speed, rather than re-querying constantly
 		bar._DA = bar[0][opts.pxSplit];
-		splitter._PBF = $.boxModel? dimSum(splitter, "border"+opts.side3+"Width", "border"+opts.side4+"Width") : 0;
-		splitter._PBA = $.boxModel? dimSum(splitter, "border"+opts.side1+"Width", "border"+opts.side2+"Width") : 0;
+		splitter._PBF = $.support.boxModel? dimSum(splitter, "border"+opts.side3+"Width", "border"+opts.side4+"Width") : 0;
+		splitter._PBA = $.support.boxModel? dimSum(splitter, "border"+opts.side1+"Width", "border"+opts.side2+"Width") : 0;
 		A._pane = opts.side1;
 		B._pane = opts.side2;
 		$.each([A,B], function(){
