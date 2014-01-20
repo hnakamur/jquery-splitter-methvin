@@ -34,6 +34,12 @@
  
  $.fn.splitter = function(args){
 	args = args || {};
+
+  // IE below version 9 fires resize event, while other browsers don't.
+  // We don't support IE < 8, so we need to check IE 8 only.
+  // See: http://stackoverflow.com/questions/5321284/fix-for-jquery-splitter-in
+  var browserFiresResize = navigator.appVersion.indexOf("MSIE 8.") !== -1;
+
 	return this.each(function() {
 		var zombie;		// left-behind splitbar for outline resizes
 		function startSplitMouse(evt) {
@@ -77,7 +83,7 @@
 			B.css(opts.origin, newPos+bar._DA)
 				.css(opts.split, splitter._DA-bar._DA-newPos).css(opts.fixed,  splitter._DF);
 			// IE fires resize for us; all others pay cash
-			if ( !$.browser.msie )
+			if ( !browserFiresResize )
 				panes.trigger("resize");
 		}
 		function dimSum(jq, dims) {
@@ -186,10 +192,10 @@
 				var top = splitter.offset().top;
 				var wh = $(window).height();
 				splitter.css("height", Math.max(wh-top-splitter._hadjust, splitter._hmin)+"px");
-				if ( !$.browser.msie ) splitter.trigger("resize");
+				if ( !browserFiresResize ) splitter.trigger("resize");
 			}).trigger("resize");
 		}
-		else if ( opts.resizeToWidth && !$.browser.msie )
+		else if ( opts.resizeToWidth && !browserFiresResize )
 			$(window).bind("resize", function(){
 				splitter.trigger("resize"); 
 			});
